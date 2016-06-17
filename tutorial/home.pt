@@ -4,6 +4,7 @@
     <title>Quick Tutorial: ${name}</title>
 </head>
 <body>
-<h1>Hi ${name}</h1>
+<h1>${name}</h1>
+<p>First: ${first}, Last: ${last}</p>
 </body>
 </html>

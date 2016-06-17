@@ -14,41 +14,23 @@ class TutorialViewTests(unittest.TestCase):
         from .views import TutorialViews
 
         request = testing.DummyRequest()
+        request.matchdict['first'] = 'First'
+        request.matchdict['last'] = 'Last'
         inst = TutorialViews(request)
         response = inst.home()
-        self.assertEqual(response.status, '302 Found')
-
-    def test_plain_without_name(self):
-        from .views import TutorialViews
-
-        request = testing.DummyRequest()
-        inst = TutorialViews(request)
-        response = inst.plain()
-        self.assertIn(b'No Name Provided', response.body)
-
-    def test_plain_with_name(self):
-        from .views import TutorialViews
-
-        request = testing.DummyRequest()
-        request.GET['name'] = 'Jane Doe'
-        inst = TutorialViews(request)
-        response = inst.plain()
-        self.assertIn(b'Jane Doe', response.body)
+        self.assertEqual(response['first'], 'First')
+        self.assertEqual(response['last'], 'Last')
 
 
 class TutorialFunctionalTests(unittest.TestCase):
     def setUp(self):
         from tutorial import main
-
         app = main({})
         from webtest import TestApp
 
         self.testapp = TestApp(app)
 
-    def test_plain_without_name(self):
-        res = self.testapp.get('/plain', status=200)
-        self.assertIn(b'No Name Provided', res.body)
-
-    def test_plain_with_name(self):
-        res = self.testapp.get('/plain?name=Jane%20Doe', status=200)
-        self.assertIn(b'Jane Doe', res.body)
+    def test_home(self):
+        res = self.testapp.get('/howdy/Jane/Doe', status=200)
+        self.assertIn(b'Jane', res.body)
+        self.assertIn(b'Doe', res.body)
