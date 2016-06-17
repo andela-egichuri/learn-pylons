@@ -2,9 +2,10 @@
 <html lang="en">
 <head>
     <title>Quick Tutorial: ${name}</title>
+    <link rel="stylesheet"
+          href="${request.static_url('tutorial:static/app.css') }"/>
 </head>
 <body>
-<h1>${name}</h1>
-<p>First: ${first}, Last: ${last}</p>
+<h1>Hi ${name}</h1>
 </body>
 </html>
