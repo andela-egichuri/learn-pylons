@@ -16,16 +16,7 @@ class TutorialViewTests(unittest.TestCase):
         request = testing.DummyRequest()
         inst = TutorialViews(request)
         response = inst.home()
-        self.assertEqual('Home View', response['name'])
-
-    def test_hello(self):
-        from .views import TutorialViews
-
-        request = testing.DummyRequest()
-        inst = TutorialViews(request)
-        response = inst.hello()
-        self.assertEqual('Hello View', response['name'])
-
+        self.assertEqual('Home View', response['page_title'])
 
 class TutorialFunctionalTests(unittest.TestCase):
     def setUp(self):
@@ -37,13 +28,4 @@ class TutorialFunctionalTests(unittest.TestCase):
 
     def test_home(self):
         res = self.testapp.get('/', status=200)
-        self.assertIn(b'<h1>Hi Home View', res.body)
-
-    def test_hello(self):
-        res = self.testapp.get('/howdy', status=200)
-        self.assertIn(b'<h1>Hi Hello View', res.body)
-
-    def test_hello_json(self):
-        res = self.testapp.get('/howdy.json', status=200)
-        self.assertIn(b'{"name": "Hello View"}', res.body)
-        self.assertEqual(res.content_type, 'application/json')
+        self.assertIn(b'TutorialViews - Home View', res.body)
